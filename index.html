@@ -1,0 +1,1521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrueLine Digital | Modern Solutions</title>
+    <!-- Anime.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <style>
+        /* Base styles */
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            background-color: #030712;
+            color: #f8fafc;
+        }
+
+        /* Ambient Glow */
+        .ambient-glow {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80vw;
+            height: 80vw;
+            background: radial-gradient(circle, rgba(29, 78, 216, 0.15) 0%, transparent 70%);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            font-weight: 700;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .section-title span {
+            color: #3b82f6;
+        }
+
+        section {
+            padding: 6rem 2rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* 1. Navigation Bar */
+        .glass-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 70px;
+            background: rgba(3, 7, 18, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+            box-sizing: border-box;
+            z-index: 1000;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #f8fafc;
+            text-decoration: none;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-logo span { color: #3b82f6; margin-left: 0.2rem; }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links a {
+            color: #d1d5db;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover { color: white; }
+
+        .nav-cta {
+            background: linear-gradient(135deg, #2563EB, #06B6D4);
+            color: white;
+            text-decoration: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: inline-block;
+        }
+        
+        .nav-cta-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            text-decoration: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: transform 0.3s, background 0.3s;
+            display: inline-block;
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px -3px rgba(37, 99, 235, 0.5);
+        }
+        
+        .nav-cta-secondary:hover {
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* 2. Hero Section */
+        #hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-top: 100px;
+            background: linear-gradient(135deg, #020617, #0F172A, #1D4ED8);
+        }
+
+        .hero-container {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 4rem;
+            max-width: 1200px;
+            width: 100%;
+            align-items: center;
+        }
+
+        .hero-left {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1.5rem;
+        }
+
+        .hero-heading {
+            font-size: 4.5rem;
+            line-height: 1.1;
+            margin: 0;
+            font-weight: 800;
+        }
+
+        .hero-heading span {
+            background: linear-gradient(to right, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-desc {
+            font-size: 1.125rem;
+            color: #9ca3af;
+            max-width: 90%;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .bento-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 250px 250px;
+            gap: 0px;
+        }
+
+        .bento-box {
+            grid-column: 1 / 3;
+            grid-row: 1 / 3;
+            border-radius: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            overflow: hidden;
+        }
+        .bento-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+
+
+        @keyframes floatPulse {
+            0%, 100% { transform: translateY(0); box-shadow: 0 0 15px rgba(59, 130, 246, 0.4); }
+            50% { transform: translateY(-20px); box-shadow: 0 0 35px rgba(59, 130, 246, 0.8), 0 15px 30px rgba(0, 0, 0, 0.3); }
+        }
+
+        /* 3. Futuristic Terminal Section */
+        #terminal-section {
+            padding: 8rem 2rem;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            background-color: #010409;
+        }
+        .terminal-grid {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: 
+                linear-gradient(rgba(14, 165, 233, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(14, 165, 233, 0.05) 1px, transparent 1px);
+            background-size: 30px 30px;
+            z-index: 0;
+        }
+        .terminal-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            max-width: 800px;
+            margin: 0 auto;
+            gap: 3rem;
+            width: 100%;
+            position: relative;
+            z-index: 10;
+        }
+        .term-window {
+            background: rgba(13, 17, 23, 0.85);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            border-radius: 12px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 20px rgba(14, 165, 233, 0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .term-header {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 0.75rem 1rem;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid rgba(56, 189, 248, 0.1);
+        }
+        .term-controls { display: flex; gap: 8px; }
+        .control { width: 12px; height: 12px; border-radius: 50%; }
+        .c-red { background: #ff5f56; }
+        .c-yel { background: #ffbd2e; }
+        .c-grn { background: #27c93f; }
+        .term-title {
+            flex: 1;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #94a3b8;
+            font-family: monospace;
+        }
+        .term-body {
+            padding: 2rem;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 1rem;
+            color: #e2e8f0;
+            line-height: 1.6;
+            flex: 1;
+            position: relative;
+        }
+        .scan-line {
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 100%;
+            background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.1) 51%);
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 5;
+        }
+        .prompt { color: #22c55e; }
+        .path { color: #3b82f6; }
+        .cursor {
+            display: inline-block;
+            width: 8px; height: 16px;
+            background: #38bdf8;
+            vertical-align: middle;
+            animation: blink 1s step-end infinite;
+        }
+        @keyframes blink { 50% { opacity: 0; } }
+        .glow-text {
+            color: #38bdf8;
+            text-shadow: 0 0 8px rgba(56, 189, 248, 0.5);
+        }
+        .term-row { margin-bottom: 1rem; }
+        .term-list { list-style: none; padding: 0; margin: 0; }
+        .term-list li {
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            opacity: 0;
+        }
+        .term-list li::before { content: '>'; color: #38bdf8; font-weight: bold; }
+        .status-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            opacity: 0;
+            border-bottom: 1px dashed rgba(255,255,255,0.05);
+            padding-bottom: 0.5rem;
+        }
+        .status-label { display: flex; align-items: center; gap: 0.8rem; }
+        .status-indicator {
+            width: 10px; height: 10px; border-radius: 50%;
+            background: #22c55e;
+            box-shadow: 0 0 8px #22c55e;
+        }
+
+        /* Responsive Terminal */
+        @media (max-width: 900px) {
+            .terminal-container { grid-template-columns: 1fr; gap: 2rem; }
+            .term-body { padding: 1.5rem; font-size: 0.9rem; }
+        }
+
+        /* 4. What We Build */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: linear-gradient(135deg, #111827, #1F2937);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 1rem;
+            padding: 2.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            backdrop-filter: blur(10px);
+            position: relative;
+            z-index: 3;
+        }
+
+        .card.pulse-glow {
+            animation: cardPulse 0.8s ease-out;
+        }
+
+        @keyframes cardPulse {
+            0% { box-shadow: 0 0 0 0 rgba(34, 211, 238, 0.4); border-color: rgba(34, 211, 238, 0.8); }
+            70% { box-shadow: 0 0 20px 10px rgba(34, 211, 238, 0); border-color: rgba(255, 255, 255, 0.05); }
+            100% { box-shadow: 0 0 0 0 rgba(34, 211, 238, 0); }
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px -5px rgba(59, 130, 246, 0.3);
+            border-color: rgba(59, 130, 246, 0.4);
+        }
+        
+        .card h3 {
+            margin-top: 0;
+            color: #f8fafc;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .card p {
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 0;
+        }
+
+        .bento-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        #network-svg {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .network-path {
+            fill: none;
+            stroke: rgba(6, 182, 212, 0.15);
+            stroke-width: 2;
+            stroke-dasharray: 6 6;
+        }
+        
+        .data-packet {
+            position: absolute;
+            top: 0; left: 0;
+            width: 8px; height: 8px;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 10px 2px #38BDF8, 0 0 20px 4px #22D3EE;
+            pointer-events: none;
+            z-index: 2;
+            opacity: 0;
+            margin-top: -4px;
+            margin-left: -4px;
+        }
+        
+        .bento-1 { grid-column: span 2; }
+        .bento-2 { grid-column: span 1; }
+        .bento-3 { grid-column: span 1; }
+        .bento-4 { grid-column: span 2; }
+        .bento-5 { grid-column: span 3; text-align: center; display: flex; flex-direction: column; align-items: center; }
+        .bento-5 h3 { justify-content: center; }
+
+        @media (max-width: 900px) {
+            .bento-cards-grid { grid-template-columns: 1fr; }
+            .bento-1, .bento-2, .bento-3, .bento-4, .bento-5 { grid-column: span 1; text-align: left; align-items: flex-start; }
+            .bento-5 h3 { justify-content: flex-start; }
+        }
+
+        /* 5. Why Choose Us (Sticky Scroll) */
+        #why-us {
+            background-color: #030712;
+            padding: 80px 20px;
+        }
+        .sticky-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 120px;
+        }
+        .step-row {
+            display: flex;
+            align-items: center;
+            gap: 60px;
+            min-height: 80vh;
+            position: relative;
+        }
+        .step-row.reverse { flex-direction: row-reverse; }
+        .sticky-text-col {
+            flex: 1;
+            position: sticky;
+            top: 150px;
+            height: fit-content;
+        }
+        .step-num {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #38bdf8;
+            display: block;
+            margin-bottom: 10px;
+        }
+        .sticky-text-col h3 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            color: white;
+            margin-top: 0;
+        }
+        .sticky-text-col p {
+            color: #94a3b8;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        .image-col {
+            flex: 1;
+            height: 420px;
+            background: #0f172a;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(56, 189, 248, 0.1);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .image-col img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+        .image-col:hover img { opacity: 1; }
+        
+        @media (max-width: 900px) {
+            .step-row, .step-row.reverse { flex-direction: column; gap: 40px; }
+            .sticky-text-col { position: relative; top: 0; }
+        }
+
+        /* 6. Our Process (Metro Line) */
+        #process {
+            background-color: #020617;
+            padding: 100px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .metro-container {
+            max-width: 1000px;
+            width: 100%;
+            margin-top: 4rem;
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        .metro-line {
+            position: absolute;
+            top: 24px;
+            left: 5%;
+            right: 5%;
+            height: 4px;
+            background: rgba(56, 189, 248, 0.2);
+            z-index: 1;
+        }
+        .metro-line-fill {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background: #38bdf8;
+            box-shadow: 0 0 15px #38bdf8;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        .metro-stop {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 15%;
+            text-align: center;
+            cursor: pointer;
+        }
+        .stop-point {
+            width: 24px;
+            height: 24px;
+            background: #020617;
+            border: 4px solid rgba(56, 189, 248, 0.5);
+            border-radius: 50%;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+        .metro-stop:hover .stop-point, .metro-stop.active .stop-point {
+            border-color: #38bdf8;
+            background: #38bdf8;
+            box-shadow: 0 0 20px #38bdf8;
+            transform: scale(1.2);
+        }
+        .stop-content h4 {
+            color: #38bdf8;
+            margin: 0 0 0.5rem 0;
+            font-size: 1.1rem;
+        }
+        .stop-content p {
+            color: #94a3b8;
+            font-size: 0.85rem;
+            margin: 0;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+        .metro-stop:hover .stop-content p, .metro-stop.active .stop-content p {
+            opacity: 1;
+            color: #cbd5e1;
+        }
+        
+        @media (max-width: 900px) {
+            .metro-container {
+                flex-direction: column;
+                align-items: flex-start;
+                padding-left: 20px;
+            }
+            .metro-line {
+                top: 0; bottom: 0;
+                left: 31px; right: auto;
+                width: 4px; height: 100%;
+            }
+            .metro-line-fill {
+                width: 100%; height: 0%;
+                transition: height 0.5s ease;
+            }
+            .metro-stop {
+                flex-direction: row;
+                width: 100%;
+                text-align: left;
+                margin-bottom: 3rem;
+            }
+            .stop-point { margin-bottom: 0; margin-right: 2rem; }
+        }
+
+        /* 7. Featured Projects (2x2) */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .project-card {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 1.5rem;
+            padding: 3rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: transform 0.3s;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .project-card h3 {
+            font-size: 1.8rem;
+            color: #38bdf8;
+            margin-top: 0;
+        }
+
+        .project-card p {
+            color: #cbd5e1;
+            line-height: 1.8;
+            font-size: 1.1rem;
+            margin-bottom: 0;
+        }
+
+        /* 8. Technology Stack (Marquee) */
+        #tech-stack {
+            background-color: #0f172a;
+            padding: 80px 0;
+            overflow: hidden;
+        }
+        .marquee-container {
+            display: flex;
+            width: max-content;
+            animation: scroll-left 40s linear infinite;
+            gap: 2rem;
+            margin-top: 3rem;
+            padding: 0 2rem;
+        }
+        .marquee-container:hover { animation-play-state: paused; }
+        
+        .tech-pill {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            padding: 1rem 2.5rem;
+            border-radius: 9999px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #e2e8f0;
+            white-space: nowrap;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            cursor: default;
+        }
+        .tech-pill:hover {
+            background: rgba(56, 189, 248, 0.1);
+            border-color: #38bdf8;
+            color: #38bdf8;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(56, 189, 248, 0.2);
+        }
+        
+        @keyframes scroll-left {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(calc(-50% - 1rem)); } /* Scrolls half exactly */
+        }
+
+        /* 9. Our Vision */
+        #vision {
+            background: linear-gradient(to bottom, #020617, #0f172a);
+            text-align: center;
+        }
+        
+        .vision-text {
+            font-size: 1.5rem;
+            line-height: 1.8;
+            color: #d1d5db;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* 10. FAQ Section */
+        #faq .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            margin-bottom: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 0.5rem;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .faq-summary {
+            padding: 1.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s;
+        }
+        
+        .faq-summary::-webkit-details-marker { display: none; }
+        .faq-summary:hover { background: rgba(255, 255, 255, 0.05); }
+        .faq-summary::after { content: '+'; font-size: 1.5rem; color: #3b82f6; }
+        details[open] .faq-summary::after { content: '-'; }
+
+        .faq-content {
+            padding: 0 1.5rem 1.5rem 1.5rem;
+            font-size: 1rem;
+            color: #9ca3af;
+            line-height: 1.6;
+        }
+
+        /* 11. Final CTA */
+        #final-cta {
+            text-align: center;
+            padding: 8rem 2rem;
+            background: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1920&q=80') center/cover;
+            position: relative;
+        }
+        
+        #final-cta::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(3, 7, 18, 0.85);
+        }
+        
+        .cta-content {
+            position: relative;
+            z-index: 10;
+        }
+
+        .cta-content h2 { font-size: 3.5rem; margin-bottom: 1rem; }
+        .cta-content p { font-size: 1.25rem; color: #cbd5e1; max-width: 700px; margin: 0 auto 3rem auto; line-height: 1.6;}
+
+        /* 12. Contact */
+        #contact {
+            background-color: #020617;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .contact-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+
+        .contact-info h3 { font-size: 2.5rem; margin-top: 0; }
+        .contact-info p { color: #94a3b8; line-height: 1.6; margin-bottom: 2rem; font-size: 1.1rem; }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            background: rgba(255, 255, 255, 0.02);
+            padding: 2.5rem;
+            border-radius: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .contact-form-row {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .contact-form-row input { flex: 1; }
+
+        .contact-form input, .contact-form textarea {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            color: white;
+            font-family: inherit;
+        }
+        
+        .contact-form input:focus, .contact-form textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+
+        .contact-form button {
+            background: linear-gradient(135deg, #2563EB, #06B6D4);
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s;
+            margin-top: 0.5rem;
+        }
+
+        .contact-form button:hover { transform: translateY(-2px); }
+        .contact-form p { text-align: center; color: #64748b; font-size: 0.9rem; margin: 1rem 0 0 0; }
+
+        /* Footer */
+        footer {
+            background-color: #030712;
+            padding: 4rem 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+        
+        .footer-brand { max-width: 400px; }
+        .footer-brand h2 { margin-top: 0; }
+        .footer-brand p { color: #94a3b8; line-height: 1.6; }
+        
+        .footer-links {
+            display: flex;
+            gap: 4rem;
+        }
+        
+        .footer-links ul { list-style: none; padding: 0; margin: 0; }
+        .footer-links li { margin-bottom: 0.8rem; }
+        .footer-links a { color: #94a3b8; text-decoration: none; transition: color 0.3s; }
+        .footer-links a:hover { color: white; }
+        
+        .copyright {
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: #f8fafc;
+            font-size: 2rem;
+            cursor: pointer;
+            padding: 0;
+            margin-left: auto;
+            margin-right: 1rem;
+        }
+
+        .mobile-only { display: none; }
+
+        /* Responsive */
+        @media (max-width: 1000px) {
+            .hero-container, .contact-container, .projects-grid {
+                grid-template-columns: 1fr;
+            }
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background: rgba(3, 7, 18, 0.95);
+                backdrop-filter: blur(12px);
+                padding: 1.5rem 2rem;
+                box-sizing: border-box;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            }
+            .nav-links.active {
+                display: flex;
+            }
+            .mobile-menu-btn {
+                display: block;
+            }
+            .desktop-cta {
+                display: none !important;
+            }
+            .mobile-only {
+                display: block;
+                margin-top: 1rem;
+            }
+            .hero-heading { font-size: 3.5rem; }
+            #process { padding: 4rem 2rem; }
+            .footer-container { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <div class="ambient-glow"></div>
+
+    <!-- 1. Navigation Bar -->
+    <nav class="glass-nav">
+        <a href="#" class="nav-logo">
+            <img src="https://raw.githubusercontent.com/Truelinedigital/Truelinedigital.github.io/main/logo.png" alt="TrueLine Digital Logo" style="height: 40px; border-radius: 8px;">
+            TrueLine <span>Digital</span>
+        </a>
+        <button class="mobile-menu-btn" onclick="document.querySelector('.nav-links').classList.toggle('active')">☰</button>
+        <ul class="nav-links">
+            <li><a href="#who-we-are">About</a></li>
+            <li><a href="#what-we-build">Services</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#tech-stack">Technologies</a></li>
+            <li class="mobile-only"><a href="#contact" class="nav-cta">Contact</a></li>
+        </ul>
+        <a href="#contact" class="nav-cta desktop-cta">Contact</a>
+    </nav>
+
+    <!-- 2. Hero Section -->
+    <section id="hero">
+        <div class="hero-container">
+            <div class="hero-left">
+                <h1 class="hero-heading">Small Team.<br>
+                <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=28&pause=2000&color=00E5FF&center=false&vCenter=true&repeat=true&width=450&lines=Big+Technology;Smart+Solutions;Future+Ready;Innovation+Driven;Built+for+Growth" alt="Big Technology" /></h1>
+                <p class="hero-desc">We help businesses transform ideas into powerful digital products through Web Development, Custom Software, AI Solutions, IoT Systems, Automation, and Intelligent Chatbots.</p>
+                <p class="hero-desc">Whether you're launching a startup, improving business operations, or building innovative products, we create scalable solutions designed for growth.</p>
+                <div class="hero-buttons">
+                    <a href="#contact" class="nav-cta">Start Your Project</a>
+                    <a href="#what-we-build" class="nav-cta-secondary">Explore Services</a>
+                </div>
+            </div>
+            <div class="bento-grid">
+                <div class="bento-box">
+                    <img src="https://raw.githubusercontent.com/Truelinedigital/Truelinedigital.github.io/main/ref.jpeg" alt="Developer Setup">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. Futuristic Terminal Section -->
+    <section id="terminal-section">
+        <div class="terminal-grid"></div>
+        <div class="terminal-container">
+            
+            <!-- Window 2 -->
+            <div class="term-window">
+                <div class="term-header">
+                    <div class="term-controls">
+                        <div class="control c-red"></div>
+                        <div class="control c-yel"></div>
+                        <div class="control c-grn"></div>
+                    </div>
+                    <div class="term-title">system-status.sh</div>
+                </div>
+                <div class="term-body">
+                    <div class="scan-line"></div>
+                    <div class="term-row">
+                        <span class="prompt">root@server</span>:<span class="path">/var/log</span>$ system-status
+                    </div>
+                    <br>
+                    <div class="status-row">
+                        <div class="status-label"><div class="status-indicator"></div>Projects Built</div>
+                        <div>: <span class="counter-val glow-text" data-target="2">0</span></div>
+                    </div>
+                    <div class="status-row">
+                        <div class="status-label"><div class="status-indicator"></div>AI Models Tested</div>
+                        <div>: <span class="counter-val glow-text" data-target="45">0</span></div>
+                    </div>
+                    <div class="status-row">
+                        <div class="status-label"><div class="status-indicator"></div>Deployments</div>
+                        <div>: <span class="counter-val glow-text" data-target="3">0</span></div>
+                    </div>
+                    <div class="status-row">
+                        <div class="status-label"><div class="status-indicator"></div>Git Commits</div>
+                        <div>: <span class="counter-val glow-text" data-target="10">0</span>+</div>
+                    </div>
+                    <div class="status-row">
+                        <div class="status-label"><div class="status-indicator" style="background: #ffbd2e; box-shadow: 0 0 8px #ffbd2e;"></div>Coffee Consumed</div>
+                        <div>: <span class="counter-val glow-text" data-target="220">0</span></div>
+                    </div>
+                    <br>
+                    <div class="term-row" style="margin-top: 1rem;">
+                        <span class="prompt">root@server</span>:<span class="path">/var/log</span>$ <span class="cursor"></span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 4. What We Build -->
+    <section id="what-we-build">
+        <h2 class="section-title">Solutions Designed For<br>
+        <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=26&pause=2000&color=8B5CF6&width=500&center=true&lines=Modern+Businesses;Growing+Startups;Digital+Products;Smart+Companies;Future+Innovators" alt="Modern Businesses" /></h2>
+        <div class="bento-cards-grid">
+            <svg id="network-svg" width="100%" height="100%">
+                <path class="network-path path-1" d="" />
+                <path class="network-path path-2" d="" />
+                <path class="network-path path-3" d="" />
+                <path class="network-path path-4" d="" />
+            </svg>
+            <div class="data-packet packet-1"></div>
+            <div class="data-packet packet-2"></div>
+            <div class="data-packet packet-3"></div>
+            <div class="data-packet packet-4"></div>
+            
+            <div class="card bento-1">
+                <h3>🌐 Website Development</h3>
+                <p>Professional, responsive, and high-performance websites designed to establish a strong online presence.</p>
+            </div>
+            <div class="card bento-2">
+                <h3>🤖 AI & Chat Solutions</h3>
+                <p>Intelligent assistants, RAG chatbots, automation systems, and AI-powered applications.</p>
+            </div>
+            <div class="card bento-3">
+                <h3>📡 IoT Solutions</h3>
+                <p>Smart monitoring systems, sensor integrations, automation platforms, and connected devices.</p>
+            </div>
+            <div class="card bento-4">
+                <h3>⚙️ Custom Software</h3>
+                <p>Business-specific software designed to improve efficiency, productivity, and workflow management.</p>
+            </div>
+            <div class="card bento-5">
+                <h3>💻 PC Building</h3>
+                <p>PC Building
+Custom PC assembly, hardware selection, performance optimization, and reliable system configuration tailored to your needs.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. Why Choose Us -->
+    <section id="why-us">
+        <h2 class="section-title">Why<br>
+        <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=26&pause=2000&color=00E5FF&width=500&center=true&lines=Businesses+Choose+Us;Startups+Trust+Us;Clients+Work+With+Us;Ideas+Become+Reality" alt="Businesses Choose Us" /></h2>
+        <div class="sticky-section">
+            
+            <div class="step-row">
+                <div class="image-col">
+                    <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80" alt="Small Team">
+                </div>
+                <div class="sticky-text-col">
+                    <span class="step-num">01</span>
+                    <h3>Small Team, Personal Attention</h3>
+                    <p>Work directly with the people building your project without unnecessary layers of communication. We prioritize a hands-on approach to ensure your vision is perfectly translated into code.</p>
+                </div>
+            </div>
+
+            <div class="step-row reverse">
+                <div class="image-col">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80" alt="Custom Solutions">
+                </div>
+                <div class="sticky-text-col">
+                    <span class="step-num">02</span>
+                    <h3>Custom Solutions</h3>
+                    <p>Every project is designed specifically for your business goals and requirements. We don't believe in one-size-fits-all; we build bespoke digital infrastructure tailored to your exact needs.</p>
+                </div>
+            </div>
+
+            <div class="step-row">
+                <div class="image-col">
+                    <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=80" alt="Modern Tech">
+                </div>
+                <div class="sticky-text-col">
+                    <span class="step-num">03</span>
+                    <h3>Modern Technology</h3>
+                    <p>We utilize the latest tools, frameworks, and technologies to build future-ready solutions that scale elegantly and perform lightning-fast under heavy workloads.</p>
+                </div>
+            </div>
+
+            <div class="step-row reverse">
+                <div class="image-col">
+                    <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=800&q=80" alt="Affordable">
+                </div>
+                <div class="sticky-text-col">
+                    <span class="step-num">04</span>
+                    <h3>Affordable Development</h3>
+                    <p>Startup-friendly pricing without compromising quality and performance. We deliver premium engineering that fits within a realistic business budget.</p>
+                </div>
+            </div>
+
+            <div class="step-row">
+                <div class="image-col">
+                    <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=800&q=80" alt="Support">
+                </div>
+                <div class="sticky-text-col">
+                    <span class="step-num">05</span>
+                    <h3>Long-Term Support</h3>
+                    <p>We don't just deliver projects—we help maintain and improve them as your business grows. Consider us your long-term technical partners.</p>
+                </div>
+            </div>
+
+            <div class="step-row reverse">
+                <div class="image-col">
+                    <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80" alt="Problem Solving">
+                </div>
+                <div class="sticky-text-col">
+                    <span class="step-num">06</span>
+                    <h3>Problem Solving Approach</h3>
+                    <p>We focus on understanding challenges first and building technology that creates real value, tackling operational bottlenecks with intelligent automation.</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 6. Our Process -->
+    <section id="process">
+        <h2 class="section-title">How We Build<br>
+        <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=26&pause=2000&color=3B82F6&width=500&center=true&lines=Digital+Solutions;AI+Systems;Custom+Software;Web+Applications;IoT+Platforms" alt="Digital Solutions" /></h2>
+        <div class="metro-container" id="metro-container">
+            <div class="metro-line">
+                <div class="metro-line-fill" id="metro-line-fill"></div>
+            </div>
+            
+            <div class="metro-stop" data-index="0">
+                <div class="stop-point"></div>
+                <div class="stop-content">
+                    <h4>01 Discovery</h4>
+                    <p>Understanding goals, challenges, and requirements.</p>
+                </div>
+            </div>
+            <div class="metro-stop" data-index="1">
+                <div class="stop-point"></div>
+                <div class="stop-content">
+                    <h4>02 Planning</h4>
+                    <p>Creating roadmap, architecture, and strategy.</p>
+                </div>
+            </div>
+            <div class="metro-stop" data-index="2">
+                <div class="stop-point"></div>
+                <div class="stop-content">
+                    <h4>03 Design</h4>
+                    <p>Designing beautiful and functional experiences.</p>
+                </div>
+            </div>
+            <div class="metro-stop" data-index="3">
+                <div class="stop-point"></div>
+                <div class="stop-content">
+                    <h4>04 Development</h4>
+                    <p>Building reliable, scalable, and secure solutions.</p>
+                </div>
+            </div>
+            <div class="metro-stop" data-index="4">
+                <div class="stop-point"></div>
+                <div class="stop-content">
+                    <h4>05 Testing</h4>
+                    <p>Ensuring performance and quality across devices.</p>
+                </div>
+            </div>
+            <div class="metro-stop" data-index="5">
+                <div class="stop-point"></div>
+                <div class="stop-content">
+                    <h4>06 Launch & Support</h4>
+                    <p>Deploying and providing ongoing support.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. Featured Projects -->
+    <section id="projects">
+        <h2 class="section-title">Projects We Have<br>
+        <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=26&pause=2000&color=00E5FF&width=500&center=true&lines=Built;Delivered;Engineered;Launched;Developed" alt="Built" /></h2>
+        <div class="projects-grid">
+            <div class="project-card">
+                <h3>Business Website</h3>
+                <p>Designed and developed a modern business website focused on performance, responsiveness, and user experience.</p>
+            </div>
+            <div class="project-card">
+                <h3>AI Assistant</h3>
+                <p>Developed an intelligent chatbot capable of answering questions using business-specific knowledge.</p>
+            </div>
+            <div class="project-card">
+                <h3>IoT Monitoring System</h3>
+                <p>Built a connected monitoring platform for collecting and visualizing real-time device data.</p>
+            </div>
+            <div class="project-card">
+                <h3>Custom Business Platform</h3>
+                <p>Created a tailored software solution to simplify workflows and improve operational efficiency.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. Technology Stack -->
+    <section id="tech-stack">
+        <h2 class="section-title">Technologies We<br>
+        <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=26&pause=2000&color=8B5CF6&width=500&center=true&lines=Work+With;Build+With;Innovate+With;Experiment+With" alt="Work With" /></h2>
+        <!-- Infinite Marquee -->
+        <div class="marquee-container">
+            <!-- First Set -->
+            <div class="tech-pill">HTML5 & CSS3</div>
+            <div class="tech-pill">JavaScript</div>
+            <div class="tech-pill">Python</div>
+            <div class="tech-pill">FastAPI</div>
+            <div class="tech-pill">Node.js</div>
+            <div class="tech-pill">TensorFlow</div>
+            <div class="tech-pill">LangChain</div>
+            <div class="tech-pill">Machine Learning</div>
+            <div class="tech-pill">RAG Systems</div>
+            <div class="tech-pill">MySQL</div>
+            <div class="tech-pill">PostgreSQL</div>
+            <div class="tech-pill">Docker</div>
+            <div class="tech-pill">ESP32 & Sensors</div>
+            
+            <!-- Duplicated Set for Infinite Loop -->
+            <div class="tech-pill">HTML5 & CSS3</div>
+            <div class="tech-pill">JavaScript</div>
+            <div class="tech-pill">Python</div>
+            <div class="tech-pill">FastAPI</div>
+            <div class="tech-pill">Node.js</div>
+            <div class="tech-pill">TensorFlow</div>
+            <div class="tech-pill">LangChain</div>
+            <div class="tech-pill">Machine Learning</div>
+            <div class="tech-pill">RAG Systems</div>
+            <div class="tech-pill">MySQL</div>
+            <div class="tech-pill">PostgreSQL</div>
+            <div class="tech-pill">Docker</div>
+            <div class="tech-pill">ESP32 & Sensors</div>
+        </div>
+    </section>
+
+    <!-- 9. Our Vision -->
+    <section id="vision">
+        <h2 class="section-title">Building Technology For<br>
+        <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=26&pause=2000&color=00E5FF&width=500&center=true&lines=The+Future;Tomorrow;Next+Generation;Future+Innovators;Digital+Transformation" alt="The Future" /></h2>
+        <div class="vision-text">
+            <p>We believe technology should be accessible, practical, and impactful.</p>
+            <p>Our vision is to help businesses leverage modern technologies such as Artificial Intelligence, IoT, Automation, and Custom Software to achieve sustainable growth and innovation.</p>
+        </div>
+    </section>
+
+    <!-- 10. FAQ -->
+    <section id="faq">
+        <h2 class="section-title">Frequently Asked<br>
+        <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=26&pause=2000&color=3B82F6&width=500&center=true&lines=Questions;Things+You+Should+Know;Common+Queries;Need+Help%3F" alt="Questions" /></h2>
+        <div class="faq-container">
+            <details class="faq-item">
+                <summary class="faq-summary">What services do you provide?</summary>
+                <div class="faq-content">We provide website development, web applications, custom software, AI solutions, chatbots, IoT systems, and automation services.</div>
+            </details>
+            <details class="faq-item">
+                <summary class="faq-summary">Can you build custom solutions?</summary>
+                <div class="faq-content">Yes. Every project is tailored to meet your specific business requirements.</div>
+            </details>
+            <details class="faq-item">
+                <summary class="faq-summary">Do you provide maintenance and support?</summary>
+                <div class="faq-content">Yes. We offer support, updates, and maintenance after project delivery.</div>
+            </details>
+            <details class="faq-item">
+                <summary class="faq-summary">How long does a project take?</summary>
+                <div class="faq-content">Project timelines depend on complexity. Small websites may take a few weeks, while larger applications require additional development time.</div>
+            </details>
+            <details class="faq-item">
+                <summary class="faq-summary">Can you integrate AI into existing systems?</summary>
+                <div class="faq-content">Yes. We can integrate chatbots, automation, machine learning models, and AI-powered features into existing platforms.</div>
+            </details>
+        </div>
+    </section>
+
+    <!-- 11. Final CTA -->
+    <section id="final-cta">
+        <div class="cta-content">
+            <h2>Let's Build Something <span>Amazing Together</span></h2>
+            <p>Whether you're starting from scratch or improving an existing system, we're ready to help transform your ideas into reality.</p>
+            <div class="hero-buttons" style="justify-content: center;">
+                <a href="#contact" class="nav-cta">Schedule a Call</a>
+                <a href="#contact" class="nav-cta-secondary">Start Your Project</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 12. Contact -->
+    <section id="contact">
+        <div class="contact-container">
+            <div class="contact-info">
+                <h3>Get In <span>Touch</span></h3>
+                <p>Have an idea, project, or business challenge?</p>
+                <p>Let's discuss how technology can help achieve your goals.</p>
+                <div style="margin-top: 2rem;">
+                    <p style="color: #cbd5e1; font-weight: bold; margin-bottom: 0.5rem;">Email Us Directly:</p>
+                    <a href="mailto:hello.truelinedigital@gmail.com" style="color: #38bdf8; text-decoration: none; font-size: 1.2rem;">hello.truelinedigital@gmail.com</a>
+                </div>
+            </div>
+            <form class="contact-form">
+                <div class="contact-form-row">
+                    <input type="text" placeholder="Name" required>
+                    <input type="email" placeholder="Email" required>
+                </div>
+                <div class="contact-form-row">
+                    <input type="text" placeholder="Company">
+                    <input type="text" placeholder="Project Type" required>
+                </div>
+                <textarea rows="5" placeholder="Message" required></textarea>
+                <button type="submit">Send Message</button>
+                <p>Response within 24 hours.</p>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-brand">
+                <h2>TrueLine <span>Digital</span></h2>
+                <p>Building websites, software, AI solutions, IoT systems, and automation platforms for modern businesses.</p>
+                <a href="mailto:hello.truelinedigital@gmail.com" style="display: block; margin-top: 1rem; color: #38bdf8; text-decoration: none;">hello.truelinedigital@gmail.com</a>
+            </div>
+            <div class="footer-links">
+                <ul>
+                    <li><a href="#what-we-build">Services</a></li>
+                    <li><a href="#projects">Projects</a></li>
+                </ul>
+                <ul>
+                    <li><a href="#tech-stack">Technologies</a></li>
+                    <li><a href="#who-we-are">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2026 TrueLine Digital. All Rights Reserved.
+        </div>
+    </footer>
+
+    <script>
+        // Metro Line Hover Interactions
+        const metroStops = document.querySelectorAll('.metro-stop');
+        const metroFill = document.getElementById('metro-line-fill');
+        
+        if (metroStops.length > 0 && metroFill) {
+            metroStops.forEach(stop => {
+                stop.addEventListener('mouseenter', () => {
+                    const index = parseInt(stop.getAttribute('data-index'));
+                    const percentage = (index / (metroStops.length - 1)) * 100;
+                    
+                    if (window.innerWidth > 900) {
+                        metroFill.style.width = `${percentage}%`;
+                        metroFill.style.height = '100%';
+                    } else {
+                        metroFill.style.height = `${percentage}%`;
+                        metroFill.style.width = '100%';
+                    }
+                    
+                    // Highlight current and previous stops
+                    metroStops.forEach((s, i) => {
+                        if (i <= index) {
+                            s.classList.add('active');
+                        } else {
+                            s.classList.remove('active');
+                        }
+                    });
+                });
+            });
+            
+            // Set initial state
+            metroStops[0].classList.add('active');
+        }
+
+        // Anime.js Terminal Animations
+        document.addEventListener('DOMContentLoaded', () => {
+            const termSection = document.getElementById('terminal-section');
+            if(!termSection) return;
+            
+            let animated = false;
+            
+            const observer = new IntersectionObserver((entries) => {
+                if(entries[0].isIntersecting && !animated) {
+                    animated = true;
+                    runTerminalAnimations();
+                }
+            }, { threshold: 0.3 });
+            
+            observer.observe(termSection);
+            
+            function runTerminalAnimations() {
+                // Window 2: Stagger rows and counter
+                anime({
+                    targets: '.status-row',
+                    opacity: [0, 1],
+                    translateY: [15, 0],
+                    delay: anime.stagger(250, {start: 1200}),
+                    duration: 800,
+                    easing: 'easeOutExpo',
+                    begin: function() {
+                        // Animate counters
+                        const counters = document.querySelectorAll('.counter-val');
+                        counters.forEach((c, index) => {
+                            const target = parseInt(c.getAttribute('data-target'));
+                            anime({
+                                targets: c,
+                                innerHTML: [0, target],
+                                round: 1,
+                                easing: 'easeOutExpo',
+                                duration: 2500,
+                                delay: 1200 + (index * 250) // sync with stagger
+                            });
+                        });
+                    }
+                });
+            }
+        });
+        // Animated Service Network
+        document.addEventListener('DOMContentLoaded', () => {
+            const grid = document.querySelector('.bento-cards-grid');
+            const svg = document.getElementById('network-svg');
+            const paths = [
+                document.querySelector('.path-1'),
+                document.querySelector('.path-2'),
+                document.querySelector('.path-3'),
+                document.querySelector('.path-4')
+            ];
+            const packets = [
+                document.querySelector('.packet-1'),
+                document.querySelector('.packet-2'),
+                document.querySelector('.packet-3'),
+                document.querySelector('.packet-4')
+            ];
+            
+            const cards = [
+                document.querySelector('.bento-1'),
+                document.querySelector('.bento-2'),
+                document.querySelector('.bento-3'),
+                document.querySelector('.bento-4')
+            ];
+            const hub = document.querySelector('.bento-5');
+            
+            if(!grid || !hub || !svg) return;
+
+            function drawPaths() {
+                // Ensure SVG coordinates match grid
+                svg.setAttribute('viewBox', `0 0 ${grid.offsetWidth} ${grid.offsetHeight}`);
+                
+                const gridRect = grid.getBoundingClientRect();
+                const hubRect = hub.getBoundingClientRect();
+                
+                // Hub center relative to grid
+                const startX = hubRect.left + (hubRect.width / 2) - gridRect.left;
+                const startY = hubRect.top + (hubRect.height / 2) - gridRect.top;
+                
+                cards.forEach((card, index) => {
+                    const cardRect = card.getBoundingClientRect();
+                    const endX = cardRect.left + (cardRect.width / 2) - gridRect.left;
+                    const endY = cardRect.top + (cardRect.height / 2) - gridRect.top;
+                    
+                    // Control points for cubic bezier
+                    const cp1x = startX;
+                    const cp1y = startY - (startY - endY) / 2;
+                    const cp2x = endX;
+                    const cp2y = endY + (startY - endY) / 2;
+                    
+                    const pathStr = `M ${startX} ${startY} C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${endX} ${endY}`;
+                    if(paths[index]) paths[index].setAttribute('d', pathStr);
+                });
+            }
+
+            drawPaths();
+            window.addEventListener('resize', drawPaths);
+
+            function animatePackets() {
+                packets.forEach((packet, index) => {
+                    if(!paths[index]) return;
+                    
+                    const pathEl = paths[index];
+                    const cardEl = cards[index];
+                    const path = anime.path(pathEl);
+                    
+                    const duration = 2500 + Math.random() * 1500;
+                    const delay = Math.random() * 2000;
+                    
+                    anime({
+                        targets: packet,
+                        translateX: path('x'),
+                        translateY: path('y'),
+                        rotate: path('angle'),
+                        easing: 'easeInOutSine',
+                        duration: duration,
+                        delay: delay,
+                        loop: true,
+                        opacity: {
+                            value: [0, 1, 1, 0],
+                            duration: duration,
+                            easing: 'linear',
+                            times: [0, 0.1, 0.9, 1]
+                        },
+                        update: function(anim) {
+                            if(anim.progress > 95 && !packet.pulsed) {
+                                packet.pulsed = true;
+                                cardEl.classList.remove('pulse-glow');
+                                void cardEl.offsetWidth; // trigger reflow
+                                cardEl.classList.add('pulse-glow');
+                            }
+                            if(anim.progress < 10) {
+                                packet.pulsed = false;
+                            }
+                        }
+                    });
+                });
+            }
+            
+            setTimeout(animatePackets, 500);
+        });
+    </script>
+</body>
+</html>
