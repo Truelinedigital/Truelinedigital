@@ -15,10 +15,15 @@
             margin: 0;
             padding: 0;
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            overflow-x: hidden;
+            overflow-x: hidden !important;
             scroll-behavior: smooth;
             background-color: #030712;
             color: #f8fafc;
+        }
+
+        img[src*="readme-typing-svg"] {
+            max-width: 100%;
+            height: auto;
         }
 
         /* Ambient Glow */
@@ -883,6 +888,7 @@
         @media (max-width: 1000px) {
             .hero-container, .contact-container, .projects-grid {
                 grid-template-columns: 1fr;
+                gap: 2rem;
             }
             .nav-links {
                 display: none;
@@ -897,22 +903,43 @@
                 box-sizing: border-box;
                 border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             }
-            .nav-links.active {
-                display: flex;
+            .nav-links.active { display: flex; }
+            .mobile-menu-btn { display: block; }
+            .desktop-cta { display: none !important; }
+            .mobile-only { display: block; margin-top: 1rem; }
+            
+            .hero-heading { font-size: 2.5rem; }
+            .hero-desc { font-size: 1rem; }
+            .hero-buttons { flex-direction: column; width: 100%; }
+            .hero-buttons a { text-align: center; }
+            
+            .bento-grid {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto;
             }
-            .mobile-menu-btn {
-                display: block;
+            .bento-box {
+                grid-column: 1;
+                grid-row: 1;
+                height: 300px;
             }
-            .desktop-cta {
-                display: none !important;
+
+            .step-row, .step-row.reverse {
+                flex-direction: column;
+                gap: 30px;
+                min-height: auto;
             }
-            .mobile-only {
-                display: block;
-                margin-top: 1rem;
+            .sticky-text-col {
+                position: static;
+                top: 0;
             }
-            .hero-heading { font-size: 3.5rem; }
+
+            .contact-form-row {
+                flex-direction: column !important;
+                width: 100%;
+            }
+            
             #process { padding: 4rem 2rem; }
-            .footer-container { flex-direction: column; }
+            .footer-container { flex-direction: column; gap: 2rem; }
         }
     </style>
 </head>
